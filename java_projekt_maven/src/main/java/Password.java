@@ -16,9 +16,10 @@ import javax.swing.JLabel;
  */
 public class Password extends JLabel implements MyShape{
     
-    private Font font;
+    
     public Password()
     {
+        Font font;
         font=new java.awt.Font("Tempus Sans ITC", 1, 50);
         this.setForeground(Color.white);
         this.setFont(font);

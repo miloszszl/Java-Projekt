@@ -4,8 +4,10 @@ import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.List;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import javax.swing.Action;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,7 +41,7 @@ public class HangManView extends JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         
         background=new JLabel();
-        background.setIcon(new javax.swing.ImageIcon("background-green.jpg"));
+        background.setIcon(new ImageIcon(getClass().getResource("/background-green.jpg")));//new javax.swing.ImageIcon("background-green.jpg"));
         background.setBounds(0, 0, 600, 600);
         
         jLayeredPane = new JLayeredPane();
@@ -49,7 +51,7 @@ public class HangManView extends JFrame {
         //ArrayList<String> list=list = new ArrayList<String>();
         //String [] aplhabet=new [35]String;
         
-        abutton=new MyShape[26];
+        abutton=new AlphabetButton[26];
         int x=310,y=120;
         for(int i=1;i<=26;i++)
         {
@@ -66,7 +68,7 @@ public class HangManView extends JFrame {
         
         
         password= factory.getMyShape("password");
-        password.draw("-------",0,0);
+        //password.draw("-------",0,0);
         jLayeredPane.add((Component) password);
         
         picture =factory.getMyShape("picture");
@@ -83,10 +85,16 @@ public class HangManView extends JFrame {
         
     }
     
-    public void changeText(String s)
+    public void changeText(StringBuilder s)
     {
-        password.draw(s,0,0);
+        password.draw(s.toString(),0,0);
     }
+    
+    public void changeHint(String s)
+    {
+        hintText.setText("HINT: "+s);
+    }
+    
     
     public void changePicture(int index)
     {
@@ -106,23 +114,28 @@ public class HangManView extends JFrame {
         }
     }
     
-    public void repaint(String s)
+    public void repaint(StringBuilder s)
     {
         changePicture(0);
+        hintText.setText("hint = -1 point");
         changeText(s);
         refreshButtons();
     }
     
     
-  /*  
+   
     public void addButtonListener(ActionListener a)
     {
         for(int i=0;i<=25;i++)
         {
-            abutton[i].addActionListener(a);
-            
+            ((AlphabetButton)abutton[i]).addActionListener(a);
         }
     }
     
-*/
+    public void addMouseListener(MouseListener a)
+    {
+        hintText.addMouseListener(a);
+    }
+    
+
 }

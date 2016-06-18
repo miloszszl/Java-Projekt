@@ -20,16 +20,17 @@ public class Background_music {
     @SuppressWarnings("restriction")
 	
       
-        
-        void init() throws Exception
+        //getClass().getResourceAsStream("/ChillingMusic.wav");
+        private void init() throws Exception
         {
-        AudioInputStream inputStream = AudioSystem.getAudioInputStream(new File("ChillingMusic.wav"));
+        
+        AudioInputStream inputStream = AudioSystem.getAudioInputStream(getClass().getResource("/ChillingMusic.wav"));//getClass().getResourceAsStream("/ChillingMusic.wav"));//new File("/ChillingMusic.wav"));
         Clip clip = AudioSystem.getClip();
         clip.open(inputStream);
         clip.loop(Clip.LOOP_CONTINUOUSLY);
         }
        
-        public Background_music() 
+        private Background_music() 
 	{
             try {
                 init();

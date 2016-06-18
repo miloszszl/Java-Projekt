@@ -14,7 +14,7 @@ import javax.swing.JOptionPane;
  *
  * @author Miłosz
  */
-public class MathFramework {
+public class MathFramework extends Strategy{
 
     boolean good = false;
     int flag = 1;
@@ -28,7 +28,15 @@ public class MathFramework {
         //play();
     }
 
+    
+    public int getScoreAndEnd()
+    {
+        view.setVisible(false);
+        return logic.bestScore;
+    }
+    
     public int play() {
+        logic.bestScore=0;
         view.setVisible(true);
         int n;
         do {
@@ -37,6 +45,7 @@ public class MathFramework {
             logic.timeThread = logic.new TimeThread();
             logic.finished = false;
             logic.score=0;
+            view.mathPanel.title.setForeground(new java.awt.Color(0, 0, 0));
             n = 0;
             flag = 1;
             if (flag == 1) {
@@ -82,7 +91,7 @@ public class MathFramework {
 
         } while (n == 0);
         
-        return logic.score;
+        return logic.bestScore;
     }
 
     class SubmitActionListener implements ActionListener {
@@ -99,6 +108,9 @@ public class MathFramework {
             }
 
            good = logic.ifCorrect();
+           
+            if(logic.bestScore<logic.score)
+                    logic.bestScore=logic.score;
             
             if (good == false) {
                 view.mathPanel.title.setForeground(new java.awt.Color(255, 0, 0));
@@ -109,7 +121,7 @@ public class MathFramework {
             }
             logic.createRandomNumbers();
             view.update(Integer.toString(logic.first), Integer.toString(logic.second), logic.createOperator1(), Integer.toString(logic.score));
-
+            
         }
 
     }

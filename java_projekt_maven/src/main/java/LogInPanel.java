@@ -1,4 +1,5 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
@@ -36,7 +37,8 @@ public class LogInPanel extends JLayeredPane implements PanelInterface{
         
         //tworzenie tla
         background=new JLabel();
-        background.setIcon(new javax.swing.ImageIcon("background-header.jpg"));
+        
+        background.setIcon(new ImageIcon(getClass().getResource("/background-header.jpg")));//new javax.swing.ImageIcon("background-header.jpg"));
         background.setBounds(0,0,400,200);
         
         

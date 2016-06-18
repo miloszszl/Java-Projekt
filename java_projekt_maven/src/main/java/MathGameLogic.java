@@ -10,8 +10,9 @@ import java.util.Random;
  *
  * @author Miłosz
  */
-public class MathGameLogic extends AbstractGame {
-    boolean finished=false;
+public class MathGameLogic {
+
+    boolean finished = false;
     int first = 0, second = 0;
     int answer = 0;
     int correct = 0;
@@ -19,6 +20,9 @@ public class MathGameLogic extends AbstractGame {
     private int flag = 1;
     Random generator;
     Thread timeThread;
+    public int bestScore = 0;
+    public int score;
+    public int time;
 
     public MathGameLogic() {
         score = 0;
@@ -26,10 +30,8 @@ public class MathGameLogic extends AbstractGame {
         generator = new Random();
     }
 
-    
-    
     public String createOperator1() {
-        
+
         switch (num) {
             case 0:
                 return "+";
@@ -43,7 +45,7 @@ public class MathGameLogic extends AbstractGame {
                 return "%";
         }
         return "";
-        
+
     }
 
     public void calculateCorrect() {
@@ -68,30 +70,33 @@ public class MathGameLogic extends AbstractGame {
     }
 
     public void createRandomNumbers() {
-        
-        num = (generator.nextInt(5)) ;
-        
-        if(num==3 || num==4 ||num==2)
-        {
-        first = (generator.nextInt()) % (score/10 + 3) + 1;
-        do
-        {
-            second = (generator.nextInt()) % (score/10 + 3) + 1;
-        }while(second==0);
+
+        num = (generator.nextInt(5));
+
+        if (num == 3 || num == 4 || num == 2) {
+            first = (generator.nextInt()) % (score / 10 + 3) + 1;
+            if (num == 3 || num == 4) {
+                do {
+                    second = (generator.nextInt()) % (score / 10 + 3) + 1;
+                } while (second == 0);
+            }else if(num==2)
+            {
+                do {
+                    second = (generator.nextInt()) % (score / 10 + 3) + 1;
+                } while (second == 0 || first%second!=0);
+            }
+            
+        } else {
+            first = (generator.nextInt()) % (score + 10) + 1;
+            second = (generator.nextInt()) % (score + 10) + 1;
         }
-        else
-        {
-        first = (generator.nextInt()) % (score + 10) + 1;
-        second = (generator.nextInt()) % (score + 10) + 1; 
-        }
-        
-        
+
     }
 
     public boolean ifCorrect() {
         if (correct == answer) {
             time += 5;
-            score+=1;
+            score += 1;
             return true;
         } else {
             time -= 2;
@@ -107,9 +112,8 @@ public class MathGameLogic extends AbstractGame {
         }
     }
 
-   
-
     class TimeThread extends Thread {
+
         public void run() {
             while (!finished) {
                 try {

@@ -1,4 +1,5 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JSeparator;
@@ -44,7 +45,8 @@ public class MathPanel extends JLayeredPane implements PanelInterface{
         this.setSize(400,300);
         
         background=new JLabel();
-        background.setIcon(new javax.swing.ImageIcon("Green-and-black-blackboards-chalkboards-set.jpg"));
+        
+        background.setIcon(new ImageIcon(getClass().getResource("Green-and-black-blackboards-chalkboards-set.jpg")));//new javax.swing.ImageIcon("Green-and-black-blackboards-chalkboards-set.jpg"));
         background.setBounds(0, 0, 400, 300);
         
         

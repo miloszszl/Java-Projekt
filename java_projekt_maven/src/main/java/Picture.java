@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
@@ -28,7 +29,8 @@ public class Picture extends JLabel implements MyShape{
 
     @Override
     public void draw(String text, int x, int y) {
-        this.setIcon(new javax.swing.ImageIcon("indeks"+text+".png"));
+        
+        this.setIcon(new ImageIcon(getClass().getResource("/indeks"+text+".png")));//new javax.swing.ImageIcon("/indeks"+text+".png"));
         this.setBounds(10, 100, 250, 334);
     }
   

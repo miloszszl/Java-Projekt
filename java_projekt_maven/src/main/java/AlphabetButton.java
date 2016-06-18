@@ -14,9 +14,10 @@ import javax.swing.JButton;
  */
 public class AlphabetButton extends JButton implements MyShape{
     
-    private Font font;
+    
     public AlphabetButton()
     {
+        Font font;
         font=new java.awt.Font("Tempus Sans ITC", 1, 12);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         this.setFont(font);

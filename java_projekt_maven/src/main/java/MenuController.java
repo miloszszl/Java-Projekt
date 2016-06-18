@@ -22,11 +22,13 @@ public class MenuController {
     private Start bigView;     // big frame view
     private LogIn smallView;
     private Player myPlayer;
-    MathFramework mathFramework;
+    Context game;
+    Strategy mathFramework;
+    Strategy hangman;
     IO file;
     HighScores hs;
 
-    public MenuController(Start View, LogIn View2, Player p, MathFramework mf) {
+    public MenuController(Start View, LogIn View2, Player p, MathFramework mf, HangmanController hm) {
         this.bigView = View;
         this.bigView.addListeners(new AuthorListener(), new ExitListener(), new StartListener(), new GoBackListener(), new RankListener());
 
@@ -34,31 +36,18 @@ public class MenuController {
         this.smallView.addListeners(new GoBackLogInListener(), new SubmitListener(), new StartChoiceListener());
 
         this.mathFramework = mf;
-
+        this.hangman = hm;
         myPlayer = p;
 
     }
 
-    /* public void control()
-    {
-        if (choice > 0) {
-                boolean t=mathFramework.play();
-                if (t == false)
-                {
-                    mathFramework.view.setVisible(false);
-                    bigView.setVisible(true);
-                }
-            }
-        
-       
-    }*/
     class RankListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
 
             file = new IO();
             try {
-                hs = new HighScores(file.read());
+                hs = new HighScores(file.read("scores.txt"));
                 hs.addListener(new OkListener());
 
             } catch (IOException ex) {
@@ -67,16 +56,16 @@ public class MenuController {
             }
             hs.setVisible(true);
             bigView.setVisible(false);
-            file=null;
+            file = null;
         }
     }
 
     class OkListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            
+
             hs.setVisible(false);
-            hs=null;
+            hs = null;
             bigView.setVisible(true);
         }
     }
@@ -125,8 +114,10 @@ public class MenuController {
 
         public void actionPerformed(ActionEvent e) {
             String name = smallView.logInPanel.nameField.getText();
-            myPlayer.setName(name);
-            smallView.card.show(smallView.panelContainer, "choice");
+            if (!name.equals("")) { 
+                myPlayer.setName(name);
+                smallView.card.show(smallView.panelContainer, "choice");
+            }
         }
     }
 
@@ -135,20 +126,84 @@ public class MenuController {
         public void actionPerformed(ActionEvent e) {
             smallView.setVisible(false);
             choice = smallView.choicePanel.getSelected();
-
+            if(choice==1)
+            {
+                game = new Context(mathFramework);
+            }
+            else if(choice ==2)
+            {
+                game = new Context(hangman);
+            }
+            
             Thread gameThread = new Thread() {
-                @Override
-                public void run() {
-                    if (mathFramework.play() >0) {
-                        myPlayer.setScore(mathFramework.logic.score);
-                        mathFramework.view.setVisible(false);
-                        bigView.setVisible(true);
-                    }
-                }
-            };
-            gameThread.start();
+                    
+                    @Override
+                    
+                    public void run() {
+                        //System.out.println(".run()");
+                        if (game.executePlay() >= 0) {
+                            myPlayer.setScore(game.executeEnd());
+                            bigView.setVisible(true);
 
+                            file = new IO();
+                            try {
+                                file.write(myPlayer.getName(), myPlayer.score);
+                            } catch (IOException ex) {
+                                Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            file = null;
+                        }
+                    }
+                };
+                gameThread.start();
+            
+            
+            //System.out.print(choice);
+           /* if (choice == 1) {
+                
+                Thread gameThread = new Thread() {
+                    
+                    @Override
+                    
+                    public void run() {
+                        if (mathFramework.play() >= 0) {
+                            myPlayer.setScore(mathFramework.getScoreAndEnd());
+                            bigView.setVisible(true);
+
+                            file = new IO();
+                            try {
+                                file.write(myPlayer.getName(), myPlayer.score);
 //control();
+                            } catch (IOException ex) {
+                                Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            file = null;
+                        }
+                    }
+                };
+                gameThread.start();
+            } else if (choice == 2) {
+                game = new Context(mathFramework);               
+                Thread gameThread = new Thread() {
+                    @Override
+                    public void run() {
+                        if (hangman.play() >= 0) {
+                            myPlayer.setScore(hangman.getScoreAndEnd());
+                            bigView.setVisible(true);
+
+                            file = new IO();
+                            try {
+                                file.write(myPlayer.getName(), myPlayer.score);
+                            } catch (IOException ex) {
+                                Logger.getLogger(MenuController.class.getName()).log(Level.SEVERE, null, ex);
+                            }
+                            file = null;
+                        }
+                    }
+                };
+                gameThread.start();
+            }*/
+
         }
     }
 

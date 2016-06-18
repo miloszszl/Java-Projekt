@@ -1,4 +1,5 @@
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 /*
@@ -15,7 +16,8 @@ public class MyBackgroundLabel1 extends JLabel{
     
     public MyBackgroundLabel1()
     {
-        this.setIcon(new javax.swing.ImageIcon("tree.jpg"));
+        
+        this.setIcon(new ImageIcon(getClass().getResource("/tree.jpg")));//new javax.swing.ImageIcon("/tree.jpg"));
         this.setBounds(0, 0, 600, 400);
     }
     

@@ -16,18 +16,11 @@ public class MainClass {
      public static void main(String args []) 
     {
         //ustawienie muzyki
-        //Background_music music1=Background_music.getInstanceOfMusic();
-       
-        MenuController m=new MenuController(new Start(),new LogIn(),new Player(),new MathFramework(new MathGameLogic(),new MathGameView()));
-        //m.control();
-//new HighScores("SDASDASDASDASD");
-        
-        
-        /*
-        MathGameView v=new  MathGameView();
-        v.setVisible(true);
-        */
-        
+        //Background_music a=new Background_music();
+        Background_music.getInstanceOfMusic();
+
+        new MenuController(new Start(),new LogIn(),new Player(),new MathFramework(new MathGameLogic(),new MathGameView()),new HangmanController(new HangManView(), new HangmanLogic()));
+
         }
     }
 
