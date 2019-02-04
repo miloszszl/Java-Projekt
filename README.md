@@ -1,2 +1,2 @@
-# Java-Projekt
-Miłosz Szlachetka Projekt Java
+# Java-Project
+Miłosz Szlachetka Project Java
